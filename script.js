@@ -9,7 +9,6 @@ actionButtons.forEach((button) => {
 
 const scannerModal = document.getElementById('scannerModal');
 const closeScannerButton = document.getElementById('closeScanner');
-const closeSuccessButton = document.getElementById('closeSuccess');
 const scanSuccess = document.getElementById('scanSuccess');
 const scanButton = document.querySelector('.scan-btn');
 const qrVideo = document.getElementById('qrVideo');
@@ -54,8 +53,9 @@ function handleScanResult(data) {
     scanCompleted = true;
     scannerStatus.textContent = 'QR recognized. Showing pass.';
     stopCamera();
+    scannerModal.classList.add('hidden');
 
-    const delay = 2000 + Math.random() * 2000;
+    const delay = 1000 + Math.random() * 500;
     resultTimeoutId = setTimeout(() => {
         if (scanSuccess) {
             scanSuccess.classList.remove('hidden');
@@ -141,9 +141,15 @@ if (closeScannerButton) {
     closeScannerButton.addEventListener('click', closeScanner);
 }
 
-if (closeSuccessButton) {
-    closeSuccessButton.addEventListener('click', closeScanner);
+if (scanSuccess) {
+    scanSuccess.addEventListener('click', closeScanner);
 }
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && scanSuccess && !scanSuccess.classList.contains('hidden')) {
+        closeScanner();
+    }
+});
 
 if (scannerModal) {
     scannerModal.addEventListener('click', (event) => {
