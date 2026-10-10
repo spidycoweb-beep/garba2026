@@ -1,0 +1,26 @@
+{
+    "id": "./",
+    "name": "Abhivyakti Workshop",
+    "short_name": "Workshop",
+    "description": "Abhivyakti Workshop participant pass and QR scanner",
+    "start_url": "./index.html",
+    "scope": "./",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#f1eee7",
+    "theme_color": "#75cbb3",
+    "icons": [
+        {
+            "src": "./icons/appicon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./icons/appicon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

@@ -156,23 +156,31 @@ button {
 
 .photo-upload-btn {
     position: absolute;
-    right: 12px;
-    bottom: 12px;
-    width: 46px;
-    height: 46px;
+    right: 4px;
+    bottom: 4px;
+    width: 26px;
+    height: 26px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--dark);
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.22);
+    background: rgba(20, 20, 20, 0.48);
+    color: #fff;
+    opacity: 0.3;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
     cursor: pointer;
+    transition: opacity 0.18s ease, background 0.18s ease;
+}
+
+.photo-upload-btn:hover,
+.photo-upload-btn:focus-visible {
+    opacity: 1;
+    background: rgba(20, 20, 20, 0.78);
 }
 
 .photo-upload-btn svg {
-    width: 23px;
-    height: 23px;
+    width: 14px;
+    height: 14px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.8;
