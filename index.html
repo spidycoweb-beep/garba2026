@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhivyakti Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-screen">
+        <header class="topbar">
+            <h1>Abhivyakti Workshop</h1>
+            <button class="nav-button" aria-label="Next page">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </button>
+        </header>
+
+        <div class="user-tab">
+            <span>Ritik Chourasiya</span>
+        </div>
+
+        <main class="details-panel">
+            <div class="details-column">
+                <div class="detail-row">
+                    <span class="label">Name :</span>
+                    <span class="value">Ritik Chourasiya</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="value">Male | 22 yrs</span>
+                </div>
+
+                <div class="detail-row">
+                    <span class="label">Batch Time :</span>
+                    <span class="value">04:15 - 05:15 PM</span>
+                </div>
+
+                <div class="detail-row venue-row">
+                    <span class="label">Venue :</span>
+                    <span class="value">Manas Bhawan (Polytechnic)<br>Polytechnic Chouraha, Bhopal</span>
+                </div>
+            </div>
+
+            <div class="photo-box">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80"
+                    alt="Workshop participant portrait">
+            </div>
+        </main>
+
+        <div class="action-grid">
+            <button class="action-btn">Photo ID</button>
+            <button class="action-btn">Receipt</button>
+            <button class="action-btn">ID Card</button>
+            <button class="action-btn">Invoice</button>
+        </div>
+
+        <button class="scan-btn" aria-label="Scan document">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path
+                    d="M8 18V10a2 2 0 0 1 2-2h8v6h-8v8H8zm0 28v8a2 2 0 0 0 2 2h8v-6h-8v-4h-2zm48-30V8a2 2 0 0 0-2-2h-8v6h8v8h6zm0 28v4h-6v6h8a2 2 0 0 0 2-2v-8h-4zm-12-18h-8v6h8v-6zm-8 10h-8v6h8v-6zm20-4h-8v6h8v-6zm-20-8h-8v6h8v-6zm8-10h8v6h-8v-6zm-8 12h8v6h-8v-6zm16 4h8v6h-8v-6zm-16 10h8v6h-8v-6z"
+                    fill="currentColor" />
+                <rect x="18" y="18" width="28" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3" />
+            </svg>
+            <span>SCAN</span>
+        </button>
+    </div>
+
+    <div class="scanner-modal hidden" id="scannerModal" aria-modal="true" role="dialog">
+        <div class="scanner-panel">
+            <div class="scanner-header">
+                <h3>Scan QR Code</h3>
+                <button class="close-scanner" id="closeScanner" aria-label="Close scanner">×</button>
+            </div>
+
+            <video id="qrVideo" autoplay playsinline muted></video>
+            <canvas id="qrCanvas" hidden></canvas>
+
+            <p class="scanner-status" id="scannerStatus">Allow camera access to scan QR.</p>
+
+            <input type="file" id="qrFileInput" accept="image/*" hidden>
+            <button class="upload-btn" id="uploadBtn" type="button">Upload QR Image</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
