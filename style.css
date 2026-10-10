@@ -254,17 +254,8 @@ button {
 .scanner-toolbar {
     width: min(100%, 480px);
     min-height: 42px;
-    display: grid;
-    grid-template-columns: 42px 1fr 42px;
+    display: flex;
     align-items: center;
-}
-
-.scanner-toolbar h2 {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    text-align: left;
-    padding-left: 8px;
 }
 
 .scanner-icon-button {
@@ -279,15 +270,7 @@ button {
     cursor: pointer;
 }
 
-.scanner-icon-button:last-child {
-    justify-self: end;
-    border: 1.5px solid rgba(255, 255, 255, 0.9);
-    width: 30px;
-    height: 30px;
-}
-
-.scanner-icon-button svg,
-.scanner-action-icon svg {
+.scanner-icon-button svg {
     width: 22px;
     height: 22px;
     fill: none;
@@ -350,61 +333,19 @@ button {
 
 .scanner-status {
     position: absolute;
-    top: calc(24% + min(68vw, 258px) + 20px);
-    width: min(90%, 340px);
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.88rem;
-    text-align: center;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
 
-.scanner-actions {
-    position: absolute;
-    top: calc(24% + min(68vw, 258px) + 62px);
-    display: flex;
-    justify-content: center;
-    gap: 22px;
-}
-
-.scanner-action {
-    min-width: 58px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 7px;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 0.72rem;
-    cursor: pointer;
-}
-
-.scanner-action-icon {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.17);
-}
-
-.scanner-action[aria-pressed="true"] .scanner-action-icon {
-    color: #1a1023;
-    background: #d8b4fe;
-}
-
-.scanner-brand {
+.scanner-read-label {
     position: absolute;
     bottom: 42px;
-    color: rgba(255, 255, 255, 0.52);
-    font-size: 0.8rem;
-    font-style: italic;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-}
-
-.scanner-brand span {
-    margin-left: 7px;
-    font-size: 0.62rem;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
 }
 
 .scanner-home-indicator {

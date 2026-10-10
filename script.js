@@ -13,14 +13,8 @@ const scanButton = document.querySelector('.scan-btn');
 const qrVideo = document.getElementById('qrVideo');
 const qrCanvas = document.getElementById('qrCanvas');
 const scannerStatus = document.getElementById('scannerStatus');
-const qrFileInput = document.getElementById('qrFileInput');
-const uploadBtn = document.getElementById('uploadBtn');
-const torchButton = document.getElementById('torchBtn');
-const helpButton = document.getElementById('scannerHelp');
 let cameraStream = null;
 let scanFrameId = null;
-let cameraTrack = null;
-let torchEnabled = false;
 
 function stopCamera() {
     if (scanFrameId) {
@@ -32,12 +26,6 @@ function stopCamera() {
         cameraStream.getTracks().forEach((track) => track.stop());
         cameraStream = null;
     }
-    cameraTrack = null;
-    torchEnabled = false;
-    if (torchButton) {
-        torchButton.setAttribute('aria-pressed', 'false');
-    }
-
     if (qrVideo) {
         qrVideo.srcObject = null;
     }
@@ -72,7 +60,6 @@ function startCameraScan() {
         video: { facingMode: 'environment' }
     }).then((stream) => {
         cameraStream = stream;
-        cameraTrack = stream.getVideoTracks()[0];
         if (qrVideo) {
             qrVideo.srcObject = stream;
             qrVideo.play();
@@ -112,39 +99,8 @@ function startCameraScan() {
 
         tick();
     }).catch(() => {
-        scannerStatus.textContent = 'Camera permission denied. You can upload a QR image instead.';
-        if (uploadBtn) {
-            uploadBtn.style.display = 'block';
-        }
+        scannerStatus.textContent = 'Camera permission denied.';
     });
-}
-
-function readQrFromFile(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const code = window.jsQR(imageData.data, imageData.width, imageData.height, {
-                inversionAttempts: 'dontInvert'
-            });
-
-            if (code) {
-                handleScanResult(code.data);
-            } else {
-                scannerStatus.textContent = 'No QR code detected in the uploaded image.';
-            }
-        };
-        img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
 }
 
 if (scanButton) {
@@ -172,42 +128,4 @@ if (scannerModal) {
     });
 }
 
-if (uploadBtn) {
-    uploadBtn.addEventListener('click', () => {
-        qrFileInput.click();
-    });
-}
-
-if (torchButton) {
-    torchButton.addEventListener('click', async () => {
-        const supportsTorch = cameraTrack?.getCapabilities?.().torch;
-        if (!supportsTorch) {
-            scannerStatus.textContent = 'Torch is not supported by this camera.';
-            return;
-        }
-
-        try {
-            torchEnabled = !torchEnabled;
-            await cameraTrack.applyConstraints({ advanced: [{ torch: torchEnabled }] });
-            torchButton.setAttribute('aria-pressed', String(torchEnabled));
-        } catch {
-            torchEnabled = false;
-            torchButton.setAttribute('aria-pressed', 'false');
-            scannerStatus.textContent = 'Could not turn on the torch.';
-        }
-    });
-}
-
-if (helpButton) {
-    helpButton.addEventListener('click', () => {
-        scannerStatus.textContent = 'Hold your camera steady and fit the QR code inside the purple frame.';
-    });
-}
-
-if (qrFileInput) {
-    qrFileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        readQrFromFile(file);
-    });
-}
 
