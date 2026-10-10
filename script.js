@@ -14,10 +14,31 @@ const scanButton = document.querySelector('.scan-btn');
 const qrVideo = document.getElementById('qrVideo');
 const qrCanvas = document.getElementById('qrCanvas');
 const scannerStatus = document.getElementById('scannerStatus');
+const photoUploadButton = document.getElementById('photoUploadButton');
+const photoUploadInput = document.getElementById('photoUploadInput');
+const participantPhoto = document.querySelector('.photo-box img');
 let cameraStream = null;
 let scanFrameId = null;
 let resultTimeoutId = null;
 let scanCompleted = false;
+let participantPhotoUrl = null;
+
+if (photoUploadButton && photoUploadInput && participantPhoto) {
+    photoUploadButton.addEventListener('click', () => photoUploadInput.click());
+
+    photoUploadInput.addEventListener('change', () => {
+        const photo = photoUploadInput.files[0];
+        if (!photo) return;
+
+        if (participantPhotoUrl) {
+            URL.revokeObjectURL(participantPhotoUrl);
+        }
+
+        participantPhotoUrl = URL.createObjectURL(photo);
+        participantPhoto.src = participantPhotoUrl;
+        photoUploadInput.value = '';
+    });
+}
 
 function stopCamera() {
     if (scanFrameId) {
@@ -45,6 +66,7 @@ function closeScanner() {
     if (scanSuccess) {
         scanSuccess.classList.add('hidden');
     }
+    document.body.classList.remove('pass-visible');
 }
 
 function handleScanResult(data) {
@@ -59,6 +81,7 @@ function handleScanResult(data) {
         scannerModal.classList.add('hidden');
         if (scanSuccess) {
             scanSuccess.classList.remove('hidden');
+            document.body.classList.add('pass-visible');
         }
     }, delay);
 }
