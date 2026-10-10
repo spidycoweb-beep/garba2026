@@ -9,12 +9,16 @@ actionButtons.forEach((button) => {
 
 const scannerModal = document.getElementById('scannerModal');
 const closeScannerButton = document.getElementById('closeScanner');
+const closeSuccessButton = document.getElementById('closeSuccess');
+const scanSuccess = document.getElementById('scanSuccess');
 const scanButton = document.querySelector('.scan-btn');
 const qrVideo = document.getElementById('qrVideo');
 const qrCanvas = document.getElementById('qrCanvas');
 const scannerStatus = document.getElementById('scannerStatus');
 let cameraStream = null;
 let scanFrameId = null;
+let resultTimeoutId = null;
+let scanCompleted = false;
 
 function stopCamera() {
     if (scanFrameId) {
@@ -32,18 +36,31 @@ function stopCamera() {
 }
 
 function closeScanner() {
+    clearTimeout(resultTimeoutId);
+    resultTimeoutId = null;
+    scanCompleted = false;
     stopCamera();
     if (scannerModal) {
         scannerModal.classList.add('hidden');
     }
+    if (scanSuccess) {
+        scanSuccess.classList.add('hidden');
+    }
 }
 
 function handleScanResult(data) {
-    if (!data) return;
+    if (!data || scanCompleted) return;
 
-    scannerStatus.textContent = `QR scanned: ${data}`;
-    alert(`QR code scanned successfully: ${data}`);
-    closeScanner();
+    scanCompleted = true;
+    scannerStatus.textContent = 'QR recognized. Showing pass.';
+    stopCamera();
+
+    const delay = 2000 + Math.random() * 2000;
+    resultTimeoutId = setTimeout(() => {
+        if (scanSuccess) {
+            scanSuccess.classList.remove('hidden');
+        }
+    }, delay);
 }
 
 function startCameraScan() {
@@ -109,6 +126,10 @@ if (scanButton) {
         setTimeout(() => scanButton.classList.remove('is-selected'), 220);
 
         if (scannerModal) {
+            scanCompleted = false;
+            if (scanSuccess) {
+                scanSuccess.classList.add('hidden');
+            }
             scannerModal.classList.remove('hidden');
             scannerStatus.textContent = 'Allow camera access to scan QR.';
             startCameraScan();
@@ -118,6 +139,10 @@ if (scanButton) {
 
 if (closeScannerButton) {
     closeScannerButton.addEventListener('click', closeScanner);
+}
+
+if (closeSuccessButton) {
+    closeSuccessButton.addEventListener('click', closeScanner);
 }
 
 if (scannerModal) {
