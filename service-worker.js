@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abhivyakti-workshop-v2';
+const CACHE_NAME = 'abhivyakti-workshop-v6';
 const APP_ASSETS = [
     './',
     './index.html',
