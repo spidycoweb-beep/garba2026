@@ -52,11 +52,11 @@ function handleScanResult(data) {
 
     scanCompleted = true;
     scannerStatus.textContent = 'QR recognized. Showing pass.';
-    stopCamera();
-    scannerModal.classList.add('hidden');
 
     const delay = 1000 + Math.random() * 500;
     resultTimeoutId = setTimeout(() => {
+        stopCamera();
+        scannerModal.classList.add('hidden');
         if (scanSuccess) {
             scanSuccess.classList.remove('hidden');
         }

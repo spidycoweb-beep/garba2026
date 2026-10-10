@@ -369,7 +369,7 @@ button {
     justify-content: center;
     overflow: hidden;
     padding: 16px;
-    background: rgba(255, 255, 255, 0.24);
+    background: rgba(0, 0, 0, 0.48);
     backdrop-filter: blur(9px);
     -webkit-backdrop-filter: blur(9px);
     cursor: pointer;
@@ -385,7 +385,7 @@ button {
     max-width: min(90vw, 520px);
     max-height: calc(100vh - 32px);
     object-fit: contain;
-    opacity: 0.72;
+    opacity: 1;
     pointer-events: none;
 }
 
