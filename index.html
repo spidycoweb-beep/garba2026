@@ -74,21 +74,60 @@
         </button>
     </div>
 
-    <div class="scanner-modal hidden" id="scannerModal" aria-modal="true" role="dialog">
-        <div class="scanner-panel">
-            <div class="scanner-header">
-                <h3>Scan QR Code</h3>
-                <button class="close-scanner" id="closeScanner" aria-label="Close scanner">×</button>
+    <div class="scanner-modal hidden" id="scannerModal" aria-modal="true" role="dialog" aria-label="QR scanner">
+        <video id="qrVideo" autoplay playsinline muted></video>
+        <canvas id="qrCanvas" hidden></canvas>
+        <div class="scanner-shade" aria-hidden="true"></div>
+
+        <div class="scanner-content">
+            <header class="scanner-toolbar">
+                <button class="scanner-icon-button" id="closeScanner" aria-label="Close scanner">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="m15 18-6-6 6-6" />
+                    </svg>
+                </button>
+                <h2>Scan any QR</h2>
+                <button class="scanner-icon-button" id="scannerHelp" aria-label="Scanner help">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M9.8 9a2.3 2.3 0 1 1 3.8 1.7c-1 .8-1.6 1.2-1.6 2.8M12 17h.01" />
+                    </svg>
+                </button>
+            </header>
+
+            <div class="scanner-guide" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
             </div>
 
-            <video id="qrVideo" autoplay playsinline muted></video>
-            <canvas id="qrCanvas" hidden></canvas>
+            <p class="scanner-status" id="scannerStatus" aria-live="polite">Align a QR code inside the frame</p>
 
-            <p class="scanner-status" id="scannerStatus">Allow camera access to scan QR.</p>
+            <div class="scanner-actions">
+                <button class="scanner-action" id="uploadBtn" type="button">
+                    <span class="scanner-action-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3.5" y="4" width="17" height="16" rx="2" />
+                            <circle cx="8.5" cy="9" r="1.5" />
+                            <path d="m5 17 4-4 3 3 2-2 5 4" />
+                        </svg>
+                    </span>
+                    <span>Upload QR</span>
+                </button>
+                <button class="scanner-action" id="torchBtn" type="button" aria-pressed="false">
+                    <span class="scanner-action-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M7 3h10l-1 5-2 2v9l-3 2-3-2v-9L6 8l1-5Z" />
+                            <path d="M8 7h8M10 13h4" />
+                        </svg>
+                    </span>
+                    <span>Torch</span>
+                </button>
+            </div>
 
-            <input type="file" id="qrFileInput" accept="image/*" hidden>
-            <button class="upload-btn" id="uploadBtn" type="button">Upload QR Image</button>
+            <div class="scanner-brand" aria-hidden="true">ABHIVYAKTI <span>WORKSHOP</span></div>
+            <div class="scanner-home-indicator" aria-hidden="true"></div>
         </div>
+
+        <input type="file" id="qrFileInput" accept="image/*" hidden>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>

@@ -15,8 +15,12 @@ const qrCanvas = document.getElementById('qrCanvas');
 const scannerStatus = document.getElementById('scannerStatus');
 const qrFileInput = document.getElementById('qrFileInput');
 const uploadBtn = document.getElementById('uploadBtn');
+const torchButton = document.getElementById('torchBtn');
+const helpButton = document.getElementById('scannerHelp');
 let cameraStream = null;
 let scanFrameId = null;
+let cameraTrack = null;
+let torchEnabled = false;
 
 function stopCamera() {
     if (scanFrameId) {
@@ -27,6 +31,11 @@ function stopCamera() {
     if (cameraStream) {
         cameraStream.getTracks().forEach((track) => track.stop());
         cameraStream = null;
+    }
+    cameraTrack = null;
+    torchEnabled = false;
+    if (torchButton) {
+        torchButton.setAttribute('aria-pressed', 'false');
     }
 
     if (qrVideo) {
@@ -63,6 +72,7 @@ function startCameraScan() {
         video: { facingMode: 'environment' }
     }).then((stream) => {
         cameraStream = stream;
+        cameraTrack = stream.getVideoTracks()[0];
         if (qrVideo) {
             qrVideo.srcObject = stream;
             qrVideo.play();
@@ -70,7 +80,7 @@ function startCameraScan() {
 
         scannerStatus.textContent = 'Scanning for QR code...';
 
-        const context = qrCanvas.getContext('2d');
+        const context = qrCanvas.getContext('2d', { willReadFrequently: true });
 
         function tick() {
             if (!qrVideo || qrVideo.readyState < 2) {
@@ -165,6 +175,32 @@ if (scannerModal) {
 if (uploadBtn) {
     uploadBtn.addEventListener('click', () => {
         qrFileInput.click();
+    });
+}
+
+if (torchButton) {
+    torchButton.addEventListener('click', async () => {
+        const supportsTorch = cameraTrack?.getCapabilities?.().torch;
+        if (!supportsTorch) {
+            scannerStatus.textContent = 'Torch is not supported by this camera.';
+            return;
+        }
+
+        try {
+            torchEnabled = !torchEnabled;
+            await cameraTrack.applyConstraints({ advanced: [{ torch: torchEnabled }] });
+            torchButton.setAttribute('aria-pressed', String(torchEnabled));
+        } catch {
+            torchEnabled = false;
+            torchButton.setAttribute('aria-pressed', 'false');
+            scannerStatus.textContent = 'Could not turn on the torch.';
+        }
+    });
+}
+
+if (helpButton) {
+    helpButton.addEventListener('click', () => {
+        scannerStatus.textContent = 'Hold your camera steady and fit the QR code inside the purple frame.';
     });
 }
 
